@@ -8,6 +8,7 @@ const navItems = [
     { name: 'Pendidikan', href: '/pendidikan' },
     { name: 'Penelitian', href: '/penelitian' },
     { name: 'Pengabdian', href: '/pengabdian' },
+    { name: 'Penunjang', href: '/penunjang' },
     { name: 'Logout', href: '/api/auth/logout' },
 ];
 
