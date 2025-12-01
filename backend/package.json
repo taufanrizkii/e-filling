@@ -1,10 +1,13 @@
 {
   "name": "e-filling-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon --exec ts-node server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "migrate": "node-pg-migrate",
+    "test": "jest"
   },
   "keywords": [
     "e-filling-api"

@@ -1,0 +1,1 @@
+{"version":3,"file":"pendidikan.repository.js","sourceRoot":"","sources":["../../repositories/pendidikan.repository.ts"],"names":[],"mappings":";;;AAAA,kDAA2C;AAG3C,MAAa,oBAAoB;IAC/B,KAAK,CAAC,OAAO;QACX,MAAM,KAAK,GAAG,mDAAmD,CAAC;QAClE,MAAM,MAAM,GAAG,MAAM,eAAI,CAAC,KAAK,CAAC,KAAK,CAAC,CAAC;QACvC,OAAO,MAAM,CAAC,IAAI,CAAC;IACrB,CAAC;CAqCF;AA1CD,oDA0CC"}

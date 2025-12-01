@@ -1,0 +1,1 @@
+{"version":3,"file":"pendidikan.controller.d.ts","sourceRoot":"","sources":["../../controllers/pendidikan.controller.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,QAAQ,EAAE,YAAY,EAAE,MAAM,SAAS,CAAC;AAI1D,qBAAa,oBAAoB;IAC/B,OAAO,CAAC,iBAAiB,CAAoB;;IAM7C,MAAM,GAAU,KAAK,OAAO,EAAE,KAAK,QAAQ,EAAE,MAAM,YAAY,mBAW7D;CA4DH"}
