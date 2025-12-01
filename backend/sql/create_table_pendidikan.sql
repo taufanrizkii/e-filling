@@ -1,0 +1,8 @@
+CREATE TABLE if not EXISTS pendidikan (
+    id serial PRIMARY KEY,
+    tahun_ajaran INTEGER NOT NULL DEFAULT 0,
+    semester VARCHAR(10) NOT NULL DEFAULT 'GANJIL',
+    sks INTEGER NOT NULL DEFAULT 0,
+    kelas VARCHAR(10) NOT NULL DEFAULT 'A',
+    status VARCHAR(15) NOT NULL DEFAULT 'BELUM_UPLOAD'
+);
