@@ -5,7 +5,7 @@ import { Pendidikan, PendidikanCreateDTO } from "../models/pendidikan";
 export const findAllPendidikan = async (): Promise<Pendidikan[]> => {
   const query = "SELECT * FROM pendidikan ORDER BY created_at DESC";
   const result = await pool.query(query);
-  return result.rows; // Di pg, data ada di property .rows
+  return result.rows;
 };
 
 // 2. Buat Data Baru
@@ -34,7 +34,7 @@ export const createPendidikan = async (
   return result.rows[0];
 };
 
-// 3. Update File
+// 3. Update File Bukti (Upload Susulan)
 export const updateFilePendidikan = async (
   id: number,
   filename: string
@@ -47,7 +47,5 @@ export const updateFilePendidikan = async (
     `;
 
   const result = await pool.query(query, [filename, id]);
-
-  // Jika ada baris yang diupdate, kembalikan datanya
   return result.rows.length > 0 ? result.rows[0] : null;
 };

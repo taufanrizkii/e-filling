@@ -6,7 +6,7 @@ import {
 } from "../services/pendidikan.service";
 import fs from "fs";
 
-// 1. Handler GET
+// 1. GET All
 export const getAllPendidikan = async (
   req: Request,
   res: Response,
@@ -24,19 +24,21 @@ export const getAllPendidikan = async (
   }
 };
 
-// 2. Handler POST (Create)
+// 2. POST Create
 export const createPendidikan = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    // Validasi sederhana
     if (!req.body.mata_kuliah || !req.body.sks) {
       if (req.file) fs.unlinkSync(req.file.path); // Hapus file jika validasi gagal
       res
         .status(400)
-        .json({ status: "error", message: "Mata kuliah dan SKS wajib diisi." });
+        .json({
+          status: "error",
+          message: "Data mata kuliah dan SKS wajib diisi.",
+        });
       return;
     }
 
@@ -62,7 +64,7 @@ export const createPendidikan = async (
   }
 };
 
-// 3. Handler PUT (Update File)
+// 3. PUT Update File
 export const updatePendidikan = async (
   req: Request,
   res: Response,
@@ -83,7 +85,7 @@ export const updatePendidikan = async (
     );
 
     if (!updatedData) {
-      fs.unlinkSync(req.file.path);
+      fs.unlinkSync(req.file.path); // Hapus file jika ID tidak ditemukan
       res
         .status(404)
         .json({ status: "error", message: "Data tidak ditemukan." });
