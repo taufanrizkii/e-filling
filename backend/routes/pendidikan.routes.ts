@@ -1,4 +1,5 @@
 import { Router } from "express";
+<<<<<<< HEAD
 import {
   getAllPendidikan,
   createPendidikan,
@@ -46,5 +47,19 @@ router.post("/pendidikan", upload.single("file_bukti"), createPendidikan);
 
 // Route BARU untuk Update File (PUT)
 router.put("/pendidikan/:id", upload.single("file_bukti"), updatePendidikan);
+=======
+import { PendidikanController } from "../controllers/pendidikan.controller";
+//import { body } from "express-validator";
+//import { validate } from '../middleware/validator';
+
+const router = Router();
+const pendidikanController = new PendidikanController();
+
+router.get("/pendidikan/all", pendidikanController.getAll);
+// router.get('/:id', exampleController.getById);
+router.post("/pendidikan", pendidikanController.create);
+// router.put('/:id', validate(createExampleValidation), exampleController.update);
+// router.delete('/:id', exampleController.delete);
+>>>>>>> 344a74ec6b47e0a460a433c76d0fa4877e48294c
 
 export default router;
