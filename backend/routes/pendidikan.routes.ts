@@ -1,5 +1,4 @@
 import { Router } from "express";
-<<<<<<< HEAD
 import {
   getAllPendidikan,
   createPendidikan,
@@ -11,16 +10,18 @@ import fs from "fs";
 
 const router = Router();
 
-// --- Konfigurasi Multer ---
+// --- Konfigurasi Multer (Upload File) ---
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadPath = "uploads/";
+    // Buat folder uploads jika belum ada
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath);
     }
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
+    // Penamaan file unik: timestamp-random.ext
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(null, uniqueSuffix + path.extname(file.originalname));
   },
@@ -28,8 +29,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 },
+  limits: { fileSize: 5 * 1024 * 1024 }, // Limit 5MB
   fileFilter: (req, file, cb) => {
+    // Validasi tipe file
     if (
       file.mimetype === "application/pdf" ||
       file.mimetype.startsWith("image/")
@@ -41,25 +43,14 @@ const upload = multer({
   },
 });
 
-// --- Routes ---
+// --- Definisi Routes ---
+// GET /api/pendidikan
 router.get("/pendidikan", getAllPendidikan);
+
+// POST /api/pendidikan (dengan upload file 'file_bukti')
 router.post("/pendidikan", upload.single("file_bukti"), createPendidikan);
 
-// Route BARU untuk Update File (PUT)
+// PUT /api/pendidikan/:id (untuk update file susulan)
 router.put("/pendidikan/:id", upload.single("file_bukti"), updatePendidikan);
-=======
-import { PendidikanController } from "../controllers/pendidikan.controller";
-//import { body } from "express-validator";
-//import { validate } from '../middleware/validator';
-
-const router = Router();
-const pendidikanController = new PendidikanController();
-
-router.get("/pendidikan/all", pendidikanController.getAll);
-// router.get('/:id', exampleController.getById);
-router.post("/pendidikan", pendidikanController.create);
-// router.put('/:id', validate(createExampleValidation), exampleController.update);
-// router.delete('/:id', exampleController.delete);
->>>>>>> 344a74ec6b47e0a460a433c76d0fa4877e48294c
 
 export default router;

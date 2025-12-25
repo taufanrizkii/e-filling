@@ -1,41 +1,19 @@
 {
-<<<<<<< HEAD
   "compilerOptions": {
-    "target": "es2016",
+    "target": "ES2020",
     "module": "commonjs",
+    "lib": ["ES2020"],
     "rootDir": "./",
     "outDir": "./dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "ignoreDeprecations": "5.0"
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "ignoreDeprecations": "6.0"
   },
   "include": ["**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist"]
 }
-=======
-    "compilerOptions": {
-      "target": "ES2020",
-      "module": "commonjs",
-      "lib": ["ES2020"],
-      "outDir": "./dist",
-      "rootDir": ".",
-      "strict": true,
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true,
-      "resolveJsonModule": true,
-      "moduleResolution": "node",
-      "declaration": true,
-      "declarationMap": true,
-      "sourceMap": true,
-      "noUnusedLocals": false,
-      "noUnusedParameters": false,
-      "noImplicitReturns": true,
-      "noFallthroughCasesInSwitch": true
-    },
-    "include": ["./**/*"],
-    "exclude": ["node_modules", "dist"]
-  }
->>>>>>> 344a74ec6b47e0a460a433c76d0fa4877e48294c
