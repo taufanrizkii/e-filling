@@ -1,4 +1,20 @@
 {
+<<<<<<< HEAD
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "rootDir": "./",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "ignoreDeprecations": "5.0"
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}
+=======
     "compilerOptions": {
       "target": "ES2020",
       "module": "commonjs",
@@ -22,3 +38,4 @@
     "include": ["./**/*"],
     "exclude": ["node_modules", "dist"]
   }
+>>>>>>> 344a74ec6b47e0a460a433c76d0fa4877e48294c
