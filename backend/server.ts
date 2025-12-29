@@ -10,8 +10,11 @@ import fs from "fs";
 import pendidikanRoutes from "./routes/pendidikan.routes";
 import penelitianRoutes from "./routes/penelitian.routes";
 import pengabdianRoutes from "./routes/pengabdian.routes";
+import penunjangRoutes from "./routes/penunjang.routes";
 
 const PORT = config.port || 5000;
+
+
 
 // 1. Setup Static Files
 const uploadsPath = path.join(process.cwd(), "uploads");
@@ -24,6 +27,7 @@ app.use("/uploads", express.static(uploadsPath));
 app.use("/api/v1", pendidikanRoutes);
 app.use("/api/v1", penelitianRoutes);
 app.use("/api/v1", pengabdianRoutes);
+app.use("/api/v1", penunjangRoutes);
 
 // 3. 404 Handler (Letakkan di sini, setelah semua rute terdaftar)
 app.use((req, res) => {
@@ -41,11 +45,15 @@ const startServer = async () => {
       console.log(`📡 Pendidikan URL: http://localhost:${PORT}/api/v1/pendidikan`);
       console.log(`📡 Penelitian URL: http://localhost:${PORT}/api/v1/penelitian`);
       console.log(`📡 Pengabdian URL: http://localhost:${PORT}/api/v1/pengabdian`);
+      console.log(`📡 Pengabdian URL: http://localhost:${PORT}/api/v1/penunjang`);
     });
   } catch (error) {
     console.error("❌ Failed to start server:", error);
     process.exit(1);
   }
 };
+
+
+
 
 startServer();

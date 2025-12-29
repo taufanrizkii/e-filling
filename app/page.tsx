@@ -55,16 +55,18 @@ export default function DashboardPage() {
     try {
       setIsLoadingCounts(true);
 
-      const [pendidikanRes, penelitianRes, pengabdianRes] = await Promise.all([
+      const [pendidikanRes, penelitianRes, pengabdianRes, penunjangRes] = await Promise.all([
         fetch('http://localhost:5000/api/v1/pendidikan'),
         fetch('http://localhost:5000/api/v1/penelitian'),
         fetch('http://localhost:5000/api/v1/pengabdian'),
+        fetch('http://localhost:5000/api/v1/penunjang')
       ]);
 
-      const [pendidikanJson, penelitianJson, pengabdianJson] = await Promise.all([
+      const [pendidikanJson, penelitianJson, pengabdianJson, penunjangJson] = await Promise.all([
         pendidikanRes.json(),
         penelitianRes.json(),
         pengabdianRes.json(),
+        penunjangRes.json()
       ]);
 
       const pendidikanCount =
@@ -76,11 +78,15 @@ export default function DashboardPage() {
       const pengabdianCount =
         (pengabdianJson as ApiListResponse)?.status === 'success' ? (pengabdianJson as ApiListResponse).data?.length ?? 0 : 0;
 
+      const penunjangCount =
+        (penunjangJson as ApiListResponse)?.status === 'success' ? (penunjangJson as ApiListResponse).data?.length ?? 0 : 0;
+  
       setCounts((prev) => ({
         ...prev,
         pendidikan: pendidikanCount,
         penelitian: penelitianCount,
         pengabdian: pengabdianCount,
+        penunjang: penunjangCount,
       }));
     } catch (e) {
       console.error('Gagal mengambil count:', e);
