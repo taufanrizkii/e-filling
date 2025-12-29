@@ -9,6 +9,7 @@ import fs from "fs";
 // Import Routes
 import pendidikanRoutes from "./routes/pendidikan.routes";
 import penelitianRoutes from "./routes/penelitian.routes";
+import pengabdianRoutes from "./routes/pengabdian.routes";
 
 const PORT = config.port || 5000;
 
@@ -22,6 +23,7 @@ app.use("/uploads", express.static(uploadsPath));
 // 2. DAFTARKAN ROUTE (Harus sebelum 404 handler)
 app.use("/api/v1", pendidikanRoutes);
 app.use("/api/v1", penelitianRoutes);
+app.use("/api/v1", pengabdianRoutes);
 
 // 3. 404 Handler (Letakkan di sini, setelah semua rute terdaftar)
 app.use((req, res) => {
@@ -36,9 +38,9 @@ const startServer = async () => {
 
     app.listen(PORT, () => {
       console.log(`🚀 Server is running on port ${PORT}`);
-      console.log(
-        `📡 Penelitian URL: http://localhost:${PORT}/api/v1/penelitian`
-      );
+      console.log(`📡 Pendidikan URL: http://localhost:${PORT}/api/v1/pendidikan`);
+      console.log(`📡 Penelitian URL: http://localhost:${PORT}/api/v1/penelitian`);
+      console.log(`📡 Pengabdian URL: http://localhost:${PORT}/api/v1/pengabdian`);
     });
   } catch (error) {
     console.error("❌ Failed to start server:", error);
