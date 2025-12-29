@@ -2,22 +2,31 @@ import {
   findAllPenelitian,
   createPenelitian as createRepo,
   updateFilePenelitian,
+  deletePenelitian, // Pastikan Anda sudah menambahkan ini di repository
 } from "../repositories/penelitian.repository";
 
+// 1. Ambil Semua Data
 export const getAllPenelitianService = async () => {
-  // Ambil data langsung dari database
+  // Mengambil data mentah dari database agar field 'judul_penelitian' dan 'tahun_terbit' tetap utuh
   const result = await findAllPenelitian();
-  // Return apa adanya tanpa mengubah nama field
   return result;
 };
 
+// 2. Buat Data Baru
 export const createPenelitianService = async (data: any) => {
+  // Meneruskan data dari controller ke repository
   return await createRepo(data);
 };
 
+// 3. Update File Bukti (Upload Susulan)
 export const updatePenelitianFileService = async (
   id: number,
   filename: string
 ) => {
   return await updateFilePenelitian(id, filename);
+};
+
+// 4. Tambahkan Fitur Hapus (Sesuai permintaan tampilan baru Anda)
+export const deletePenelitianService = async (id: number) => {
+  return await deletePenelitian(id);
 };

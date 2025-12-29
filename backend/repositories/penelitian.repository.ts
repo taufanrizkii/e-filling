@@ -12,21 +12,32 @@ export const findAllPenelitian = async (): Promise<Penelitian[]> => {
 export const createPenelitian = async (
   data: PenelitianCreateDTO & { file_bukti?: string | null }
 ): Promise<Penelitian> => {
+  // Query ini meminta 7 parameter ($1 s/d $7)
   const query = `
-        INSERT INTO penelitian (judul_penelitian, jenis_karya, tahun_terbit, link_publikasi, status_penulis, status, file_path)
+        INSERT INTO penelitian (
+          judul_penelitian, 
+          jenis_karya, 
+          tahun_terbit, 
+          link_publikasi, 
+          status_penulis, 
+          status, 
+          file_path
+        )
         VALUES ($1, $2, $3, $4, $5, $6, $7)
         RETURNING *;
     `;
 
   const statusAwal = data.file_bukti ? "SUDAH_UPLOAD" : "BELUM_UPLOAD";
 
+  // Perbaikan: Array values HARUS berisi 7 item sesuai urutan query di atas
   const values = [
-    data.judul_penelitian,
-    data.jenis_karya,
-    data.tahun_terbit,
-    data.link_publikasi || null,
-    statusAwal,
-    data.file_bukti || null,
+    data.judul_penelitian, // $1
+    data.jenis_karya, // $2
+    data.tahun_terbit, // $3
+    data.link_publikasi || null, // $4
+    data.status_penulis || "Penulis Utama", // $5 (Tadi ini terlewat)
+    statusAwal, // $6
+    data.file_bukti || null, // $7
   ];
 
   const result = await pool.query(query, values);
@@ -47,4 +58,10 @@ export const updateFilePenelitian = async (
 
   const result = await pool.query(query, [filename, id]);
   return result.rows.length > 0 ? result.rows[0] : null;
+};
+
+// 4. Tambahkan Fungsi Hapus (Agar tombol hapus di FE berfungsi)
+export const deletePenelitian = async (id: number): Promise<void> => {
+  const query = "DELETE FROM penelitian WHERE id = $1";
+  await pool.query(query, [id]);
 };
