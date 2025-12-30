@@ -2,11 +2,15 @@
 
 "use client";
 
+import React, { useState } from 'react';
 import { usePathname } from "next/navigation";
 import Sidebar from "@/components/ui/Sidebar";
 import { Toaster } from "sonner";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
+  // State untuk Desktop Sidebar Minimize
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
   const pathname = usePathname();
   
   // Cek apakah url saat ini adalah halaman login
@@ -22,13 +26,24 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     );
   }
 
-  // Jika bukan halaman login, render dengan Sidebar
+
   return (
-    <Sidebar>
-      <div className="w-full px-6 py-6">
+    <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
+      
+      <Sidebar 
+        isOpen={isSidebarOpen} 
+        onToggle={() => setIsSidebarOpen(!isSidebarOpen)} 
+      />
+
+      {/* Main Content dengan Padding yang Disesuaikan */}
+      <main 
+        className={`
+          flex-1 transition-all duration-300 ease-in-out p-6 w-full
+          ${isSidebarOpen ? 'md:pl-[17.5rem]' : 'md:pl-[6.5rem]'}
+        `}
+      >
         {children}
-      </div>
-      <Toaster richColors position="top-center" />
-    </Sidebar>
+      </main>
+    </div>
   );
 }

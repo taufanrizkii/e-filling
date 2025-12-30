@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import React, { useEffect, useMemo, useState } from 'react';
 import { GraduationCap, FlaskConical, Handshake, Star } from "lucide-react";
-
+import styles from './dashboard/dashboard.module.css';
 
 interface SummaryCardProps {
   title: string;
@@ -140,51 +140,97 @@ export default function DashboardPage() {
   );
 
   return (
-    <div className="space-y-8">
-      <h1 className="text-4xl font-extrabold text-gray-800">Selamat Datang, {userData.nama.split(',')[0]}! 👋</h1>
+    <div className={styles.page}>
+      <div className={styles.shell}>
+        {/* LEFT ICON RAIL */}
+        
 
-      {/* --- Informasi Dosen --- */}
-      <div className="bg-white p-6 rounded-xl shadow-lg border-l-4 border-indigo-600">
-        <h2 className="text-2xl font-semibold mb-3 text-gray-700">Informasi Akun Dosen</h2>
-        <div className="grid grid-cols-2 gap-4 text-gray-600">
-          <p>
-            <strong>NIP/NIDN:</strong> {userData.noInduk}
-          </p>
-          <p>
-            <strong>Jabatan Fungsional:</strong> {userData.jabatan}
-          </p>
-          <p>
-            <strong>Nama Lengkap:</strong> {userData.nama}
-          </p>
-          <p>
-            <strong>Program Studi:</strong> {userData.prodi}
-          </p>
-        </div>
-      </div>
+        {/* MAIN */}
+        <main className={styles.main}>
+         
 
-      {/* --- Ringkasan Tri Dharma (Count Realtime) --- */}
-      <div className="flex items-center justify-between pt-4">
-        <h2 className="text-2xl font-bold text-gray-800">Ringkasan eFilling (Tri Dharma)</h2>
-        <span className="text-sm text-gray-500">{isLoadingCounts ? 'Memuat ringkasan...' : 'Data sudah ter-update'}</span>
-      </div>
+          {/* HERO */}
+          <section className={styles.hero}>
+            <div className={styles.heroInner}>
+              <div className={styles.heroKicker}>eFilling Dosen Widyatama</div>
+              <h1 className={styles.heroTitle}>Selamat Datang, Dr. Budi Santoso</h1>
+              <p className={styles.heroSub}>
+                Kelola pengisian Pendidikan, Penelitian, Pengabdian, dan Penunjang.
+              </p>
+            </div>
+          </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {cards.map((c, idx) => (
-          <SummaryCard key={idx} {...c} />
-        ))}
-      </div>
+          {/* CONTENT */}
+          <section className={styles.contentGrid}>
+           
 
-      {/* --- Pemberitahuan Penting --- */}
-      <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-md">
-        <div className="flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.3 17c-.77 1.333.192 3 1.732 3z" />
-          </svg>
-          <p className="text-sm text-yellow-800 font-medium">
-            <strong>Perhatian:</strong> Batas waktu pengisian data Tri Dharma Semester Ganjil TA 2024/2025 adalah tanggal <strong>31 Desember 2025</strong>.
-            Harap segera lengkapi Bidang Pengabdian.
-          </p>
-        </div>
+            {/* STATS + ACCOUNT */}
+            <div style={{ display: 'grid', gap: 16 }}>
+              {/* Stats */}
+              <div className={styles.statsGrid}>
+                <div className={styles.statCard}>
+                  <div className={styles.statTop}>
+                    <div className={styles.statLabel}>Bidang Pendidikan</div>
+                    
+                  </div>
+                  <div className={styles.statNum}>{counts.pendidikan}</div>
+                  <div className={styles.muted}>Data tersimpan</div>
+                </div>
+
+                <div className={styles.statCard}>
+                  <div className={styles.statTop}>
+                    <div className={styles.statLabel}>Bidang Penelitian</div>
+                    
+                  </div>
+                  <div className={styles.statNum}>{counts.penelitian}</div>
+                  <div className={styles.muted}>Data tersimpan</div>
+                </div>
+
+                <div className={styles.statCard}>
+                  <div className={styles.statTop}>
+                    <div className={styles.statLabel}>Bidang Pengabdian</div>
+                    
+                  </div>
+                  <div className={styles.statNum}>{counts.pengabdian}</div>
+                  <div className={styles.muted}>Data tersimpan</div>
+                </div>
+                <div className={styles.statCard}>
+                  <div className={styles.statTop}>
+                    <div className={styles.statLabel}>Bidang Penunjang</div>
+                    
+                  </div>
+                  <div className={styles.statNum}>{counts.penunjang}</div>
+                  <div className={styles.muted}>Data tersimpan</div>
+                </div>
+              </div>
+
+              {/* Account info */}
+              <div className={`${styles.card} ${styles.pad}`}>
+                <div className={styles.cardTitle}>Profile Dosen</div>
+                
+
+                <div style={{ marginTop: 12, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                  <div>
+                    <div className={styles.muted}>NIP/NIDN</div>
+                    <div style={{ fontWeight: 800, color: '#111827' }}>198501232010011005</div>
+                  </div>
+                  <div>
+                    <div className={styles.muted}>Jabatan</div>
+                    <div style={{ fontWeight: 800, color: '#111827' }}>Lektor Kepala</div>
+                  </div>
+                  <div>
+                    <div className={styles.muted}>Nama</div>
+                    <div style={{ fontWeight: 800, color: '#111827' }}>Dr. Budi Santoso, S.Kom., M.T.</div>
+                  </div>
+                  <div>
+                    <div className={styles.muted}>Program Studi</div>
+                    <div style={{ fontWeight: 800, color: '#111827' }}>Teknik Informatika</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
       </div>
     </div>
   );
