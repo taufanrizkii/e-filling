@@ -18,7 +18,7 @@ export default function PenelitianPage() {
     const [data, setData] = useState<PenelitianItem[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isUploading, setIsUploading] = useState(false);
-
+    
     // State Form
     const [formData, setFormData] = useState({
         judul_penelitian: '',
@@ -28,6 +28,7 @@ export default function PenelitianPage() {
     });
 
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
 
     // 1. Fetch Data
     const fetchData = async () => {
@@ -104,16 +105,16 @@ export default function PenelitianPage() {
     };
 
     return (
-        <div className="p-8 space-y-10 bg-gray-50 min-h-screen">
-            <h1 className="text-3xl font-bold text-gray-800 border-b pb-4">E-Filling Bidang Penelitian</h1>
+        <div className="space-y-8">
+            <h1 className="text-3xl font-bold text-gray-800 border-b pb-4">Bidang Penelitian (Publikasi, HAKI)</h1>
 
             {/* Form Input */}
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-                <h2 className="text-xl font-semibold mb-4 text-gray-700">Form Input Penelitian</h2>
-                <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+            <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                <h2 className="text-xl font-semibold text-gray-800 border-b pb-4">Informasi Penelitian (Publikasi, HAKI)</h2>
+                <form onSubmit={handleSubmit} className="grid grid-cols-2 mt-4 gap-4">
                     <div className="col-span-2">
                         <label className="block text-sm font-medium text-gray-700">Judul Penelitian</label>
-                        <input type="text" value={formData.judul_penelitian} onChange={(e) => setFormData({...formData, judul_penelitian: e.target.value})} className="mt-1 block w-full p-2 border rounded-md" required />
+                        <input type="text" value={formData.judul_penelitian} onChange={(e) => setFormData({...formData, judul_penelitian: e.target.value})} className="mt-1 block w-full p-2 border rounded-md placeholder:italic placeholder:text-gray-400 placeholder:text-xs" placeholder="Contoh: Pengaruh Tiktok Pada Kegiatan Belajar Mengajar" required />
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Jenis Karya</label>
@@ -127,15 +128,39 @@ export default function PenelitianPage() {
                         <label className="block text-sm font-medium text-gray-700">Tahun Terbit</label>
                         <input type="number" value={formData.tahun_terbit} onChange={(e) => setFormData({...formData, tahun_terbit: Number(e.target.value)})} className="mt-1 block w-full p-2 border rounded-md" required />
                     </div>
-                    <div className="col-span-2">
+                    <div className="col-span-2 lg:col-span-1">
                         <label className="block text-sm font-medium text-gray-700">Link Publikasi</label>
-                        <input type="text" value={formData.link_publikasi} onChange={(e) => setFormData({...formData, link_publikasi: e.target.value})} className="mt-1 block w-full p-2 border rounded-md" placeholder="https://..." />
+                        <input type="text" value={formData.link_publikasi} onChange={(e) => setFormData({...formData, link_publikasi: e.target.value})} className="mt-1 block w-full p-2 border rounded-md placeholder:italic placeholder:text-gray-400 placeholder:text-xs" placeholder="https://..." />
                     </div>
-                    <div className="col-span-2">
+                    <div className="col-span-2 lg:col-span-1">
                         <label className="block text-sm font-medium text-gray-700">File Bukti (PDF)</label>
-                        <input type="file" ref={fileInputRef} accept=".pdf" className="mt-1 block w-full text-sm" />
+                        <input
+                        type="file"
+                        ref={fileInputRef}
+                        accept=".pdf"
+                        className="hidden"
+                        onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) setSelectedFileName(file.name);
+                        }}
+                        />
+                        <div className="mt-1 flex items-center gap-3">
+                        <div className="flex items-center gap-2 w-full min-w-0 p-2.5 border rounded-md bg-white text-sm text-gray-700">
+                            <span>📄</span>
+                            <span className="truncate">
+                                {selectedFileName || "Belum Pilih File"}
+                            </span>
+                        </div>
+                        <button
+                            type="button"
+                            onClick={() => fileInputRef.current?.click()}
+                            className="block w-full p-2.5 rounded-md bg-gray-900 text-white text-sm font-medium hover:bg-gray-800 transition"
+                        >
+                            {selectedFileName ? "Ganti File" : "Pilih File"}
+                        </button>
+                        </div>
                     </div>
-                    <button type="submit" className="col-span-2 bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition">Simpan Data</button>
+                    <button type="submit" className="col-span-2 w-full rounded-md bg-indigo-600 py-2 font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Simpan Data</button>
                 </form>
             </div>
 

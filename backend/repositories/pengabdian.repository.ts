@@ -8,26 +8,32 @@ export const findAllPengabdian = async (): Promise<Pengabdian[]> => {
 };
 
 export const createPengabdian = async (
-  data: PengabdianCreateDTO & { file_bukti?: string | null }
+  data: PengabdianCreateDTO & { file_path?: string | null; status?: string }
 ): Promise<Pengabdian> => {
   const query = `
-    INSERT INTO pengabdian (nama_kegiatan, lokasi_pelaksanaan, tanggal_pelaksanaan, sumber_dana, status, file_path)
+    INSERT INTO pengabdian (
+      nama_kegiatan, lokasi_pelaksanaan, tanggal_pelaksanaan, sumber_dana, status, file_path
+    )
     VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *;
   `;
+
+  const filePath = data.file_path ?? null;
+  const status = data.status ?? (filePath ? "SUDAH_UPLOAD" : "BELUM_UPLOAD");
 
   const values = [
     data.nama_kegiatan,
     data.lokasi_pelaksanaan,
     data.tanggal_pelaksanaan,
     data.sumber_dana || null,
-    data.file_bukti ? "SUDAH_UPLOAD" : "BELUM_UPLOAD",
-    data.file_bukti || null,
+    status,
+    filePath,
   ];
 
   const result = await pool.query(query, values);
   return result.rows[0];
 };
+
 
 export const updateFilePengabdian = async (
   id: number,

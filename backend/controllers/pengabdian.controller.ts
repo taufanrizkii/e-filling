@@ -22,41 +22,40 @@ export const getAllPengabdian = async (
   }
 };
 
-export const createPengabdian = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const createPengabdian = async (req: Request, res: Response) => {
   try {
     if (!req.body.nama_kegiatan || !req.body.lokasi_pelaksanaan || !req.body.tanggal_pelaksanaan) {
       if (req.file) fs.unlinkSync(req.file.path);
-      res.status(400).json({
+      return res.status(400).json({
         status: "error",
         message: "Nama kegiatan, lokasi pelaksanaan, dan tanggal pelaksanaan wajib diisi.",
       });
-      return;
     }
+
+    const filePath = req.file ? req.file.filename : null;
 
     const payload = {
       nama_kegiatan: req.body.nama_kegiatan,
       lokasi_pelaksanaan: req.body.lokasi_pelaksanaan,
       tanggal_pelaksanaan: req.body.tanggal_pelaksanaan,
       sumber_dana: req.body.sumber_dana || null,
-      file_bukti: req.file ? req.file.filename : null,
+      file_path: filePath,
+      status: filePath ? "SUDAH_UPLOAD" : "BELUM_UPLOAD",
     };
 
     const data = await createPengabdianService(payload);
 
-    res.status(201).json({
+    return res.status(201).json({
       status: "success",
       data,
-      file_uploaded: req.file ? req.file.filename : "Tidak ada file",
+      file_uploaded: filePath,
     });
   } catch (error: any) {
     console.error("❌ Error createPengabdian:", error);
-    res.status(500).json({ status: "error", message: error.message });
+    return res.status(500).json({ status: "error", message: error.message });
   }
 };
+
 
 export const updatePengabdian = async (
   req: Request,

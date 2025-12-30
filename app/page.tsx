@@ -3,12 +3,13 @@
 
 import Link from 'next/link';
 import React, { useEffect, useMemo, useState } from 'react';
+import { GraduationCap, FlaskConical, Handshake, Star } from "lucide-react";
+
 
 interface SummaryCardProps {
   title: string;
   count: number;
   link: string;
-  // statusText dihapus karena "Status Pengisian" mau dihapus
   statusColor: 'bg-green-500' | 'bg-red-500' | 'bg-yellow-500' | 'bg-purple-500';
   icon: React.ReactNode;
 }
@@ -107,53 +108,32 @@ export default function DashboardPage() {
   const cards: SummaryCardProps[] = useMemo(
     () => [
       {
-        title: 'Bidang Pendidikan',
+        title: "Bidang Pendidikan",
         count: counts.pendidikan,
-        link: '/pendidikan',
-        statusColor: 'bg-green-500',
-        icon: (
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.5v11m-6-6h12M4 19h16a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2z" />
-          </svg>
-        ),
+        link: "/pendidikan",
+        statusColor: "bg-green-500",
+        icon: <GraduationCap className="w-6 h-6" />,
       },
       {
-        title: 'Bidang Penelitian',
+        title: "Bidang Penelitian",
         count: counts.penelitian,
-        link: '/penelitian',
-        statusColor: 'bg-yellow-500',
-        icon: (
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2-8a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        ),
+        link: "/penelitian",
+        statusColor: "bg-yellow-500",
+        icon: <FlaskConical className="w-6 h-6" />,
       },
       {
-        title: 'Bidang Pengabdian',
+        title: "Bidang Pengabdian",
         count: counts.pengabdian,
-        link: '/pengabdian',
-        statusColor: 'bg-red-500',
-        icon: (
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h-4l-1-2H7l-1 2H3M5 13l2-2 4 4 4-4 2 2m-4-6h-4" />
-          </svg>
-        ),
+        link: "/pengabdian",
+        statusColor: "bg-red-500",
+        icon: <Handshake className="w-6 h-6" />,
       },
       {
-        title: 'Bidang Penunjang',
+        title: "Bidang Penunjang",
         count: counts.penunjang,
-        link: '/penunjang',
-        statusColor: 'bg-purple-500',
-        icon: (
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-            />
-          </svg>
-        ),
+        link: "/penunjang",
+        statusColor: "bg-purple-500",
+        icon: <Star className="w-6 h-6" />,
       },
     ],
     [counts]

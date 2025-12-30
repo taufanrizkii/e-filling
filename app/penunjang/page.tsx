@@ -122,16 +122,16 @@ export default function PenunjangPage() {
     };
 
     return (
-        <div className="space-y-10">
+        <div className="space-y-8">
             <h1 className="text-3xl font-bold text-gray-800 border-b pb-4">
-                E-Filling Bidang Penunjang
+                Bidang Penunjang
             </h1>
 
             {/* FORM INPUT */}
             <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-                <h2 className="text-2xl font-semibold mb-4 text-gray-700">Input Kegiatan Baru</h2>
+                <h2 className="text-xl font-semibold text-gray-800 border-b pb-4">Informasi Penunjang</h2>
                 
-                <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+                <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4 mt-4">
                     
                     {/* Tahun Ajaran */}
                     <div className="col-span-1">
@@ -141,7 +141,7 @@ export default function PenunjangPage() {
                             value={formData.tahunAjaran}
                             onChange={(e) => setFormData({ ...formData, tahunAjaran: e.target.value })}
                             required
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
+                            className="mt-1 block w-full p-2 border rounded-md placeholder:italic placeholder:text-gray-400 placeholder:text-xs"
                             placeholder="Contoh: 2024"
                         />
                     </div>
@@ -152,7 +152,7 @@ export default function PenunjangPage() {
                         <select
                             value={formData.semester}
                             onChange={(e) => setFormData({ ...formData, semester: e.target.value })}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
+                            className="mt-1 block w-full p-2 border rounded-md"
                         >
                             <option value="GANJIL">GANJIL</option>
                             <option value="GENAP">GENAP</option>
@@ -167,7 +167,7 @@ export default function PenunjangPage() {
                             value={formData.namaKegiatan}
                             onChange={(e) => setFormData({ ...formData, namaKegiatan: e.target.value })}
                             required
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
+                            className="mt-1 block w-full p-2 border rounded-md placeholder:italic placeholder:text-gray-400 placeholder:text-xs"
                             placeholder="Contoh: Seminar Nasional AI"
                         />
                     </div>
@@ -178,9 +178,8 @@ export default function PenunjangPage() {
                         <select
                             value={formData.tingkat}
                             onChange={(e) => setFormData({ ...formData, tingkat: e.target.value })}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
+                            className="mt-1 block w-full p-2 border rounded-md"
                         >
-                            <option value="">Pilih Tingkat...</option>
                             <option value="Lokal">Lokal / Institusi</option>
                             <option value="Nasional">Nasional</option>
                             <option value="Internasional">Internasional</option>
@@ -195,18 +194,18 @@ export default function PenunjangPage() {
                             value={formData.peran}
                             onChange={(e) => setFormData({ ...formData, peran: e.target.value })}
                             required
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
+                            className="mt-1 block w-full p-2 border rounded-md placeholder:italic placeholder:text-gray-400 placeholder:text-xs"
                             placeholder="Contoh: Ketua / Peserta"
                         />
                     </div>
 
-                    <div className="col-span-2 pt-4">
+                    <div className="col-span-2">
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full py-2 px-4 rounded-md text-white bg-green-600 hover:bg-green-700 transition-colors font-medium shadow-sm"
+                            className="w-full rounded-md bg-indigo-600 py-2 font-semibold text-white hover:bg-indigo-700 disabled:opacity-60"
                         >
-                            {isLoading ? 'Menyimpan ke Database...' : 'Simpan Data'}
+                            {isLoading ? 'Menyimpan...' : 'Simpan Data'}
                         </button>
                     </div>
                 </form>

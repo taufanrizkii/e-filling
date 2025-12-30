@@ -144,15 +144,15 @@ export default function PendidikanPage() {
     }
 
     return (
-        <div className="space-y-10">
+        <div className="space-y-8">
             <h1 className="text-3xl font-bold text-gray-800 border-b pb-4">
-                E-Filling Bidang Pendidikan
+                Bidang Pendidikan (Pengajaran)
             </h1>
 
             {/* Form Input */}
             <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-                <h2 className="text-2xl font-semibold mb-4 text-gray-700">Input Data Mata Kuliah</h2>
-                <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+                <h2 className="text-xl font-semibold text-gray-800 border-b pb-4">Informasi Pendidikan (Pengajaran)</h2>
+                <form onSubmit={handleSubmit} className="grid grid-cols-2 mt-4 gap-4">
                     <div className="col-span-1">
                         <label className="block text-sm font-medium text-gray-700">Tahun Ajaran</label>
                         <input type="number" value={formData.tahun_ajaran} onChange={(e) => setFormData({ ...formData, tahun_ajaran: Number(e.target.value) })} className="mt-1 block w-full border p-2 rounded" required />
@@ -166,18 +166,18 @@ export default function PendidikanPage() {
                     </div>
                     <div className="col-span-2">
                         <label className="block text-sm font-medium text-gray-700">Mata Kuliah</label>
-                        <input type="text" value={formData.mata_kuliah} onChange={(e) => setFormData({ ...formData, mata_kuliah: e.target.value })} className="mt-1 block w-full border p-2 rounded" required />
+                        <input type="text" value={formData.mata_kuliah} onChange={(e) => setFormData({ ...formData, mata_kuliah: e.target.value })} className="mt-1 block w-full border p-2 rounded placeholder:italic placeholder:text-gray-400 placeholder:text-xs" placeholder="Contoh: Kalkulus 2" required />
                     </div>
                     <div className="col-span-1">
                         <label className="block text-sm font-medium text-gray-700">Kelas</label>
-                        <input type="text" value={formData.kelas} onChange={(e) => setFormData({ ...formData, kelas: e.target.value })} className="mt-1 block w-full border p-2 rounded" required />
+                        <input type="text" value={formData.kelas} onChange={(e) => setFormData({ ...formData, kelas: e.target.value })} className="mt-1 block w-full border p-2 rounded placeholder:italic placeholder:text-gray-400 placeholder:text-xs" placeholder="Contoh: REG A1" required />
                     </div>
                     <div className="col-span-1">
                         <label className="block text-sm font-medium text-gray-700">SKS</label>
-                        <input type="number" value={formData.sks || ''} onChange={(e) => setFormData({ ...formData, sks: Number(e.target.value) })} className="mt-1 block w-full border p-2 rounded" required />
+                        <input type="number" value={formData.sks || ''} onChange={(e) => setFormData({ ...formData, sks: Number(e.target.value) })} className="mt-1 block w-full border p-2 rounded placeholder:italic placeholder:text-gray-400 placeholder:text-xs" placeholder="Contoh: 3" required />
                     </div>
                     <div className="col-span-2">
-                        <button type="submit" className="w-full py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">Simpan Data</button>
+                        <button type="submit" className="w-full rounded-md bg-indigo-600 py-2 font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">Simpan Data</button>
                     </div>
                 </form>
             </div>
