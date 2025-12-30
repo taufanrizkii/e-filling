@@ -1,10 +1,9 @@
-// app/layout.tsx (Modifikasi)
+// app/layout.tsx
 
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import '@/app/globals.css';
-import Sidebar from "@/components/ui/Sidebar";
-import { Toaster } from "sonner";
+import AppLayout from "@/components/AppLayout"; // Import komponen wrapper baru
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +17,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={inter.className}>
         <div className="min-h-screen bg-gray-50">
-          <Sidebar>
-            <div className="w-full px-6 py-6">
-              {children}
-            </div>
-            <Toaster richColors position="top-center" />
-          </Sidebar>
+          {/* Gunakan AppLayout untuk menangani logika tampilan Sidebar */}
+          <AppLayout>
+            {children}
+          </AppLayout>
         </div>
       </body>
     </html>

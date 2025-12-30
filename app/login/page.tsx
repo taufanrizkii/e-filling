@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [username, setUsername] = useState("admin");
+  const [username, setUsername] = useState("budisantoso");
   const [password, setPassword] = useState("admin");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -38,8 +38,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
       <form onSubmit={onSubmit} className="w-full max-w-sm bg-white border rounded-xl p-6 shadow">
         <h1 className="text-2xl font-bold text-gray-800 mb-1">Login</h1>
-        <p className="text-sm text-gray-500 mb-5">Masuk untuk mengakses dashboard eFilling</p>
-
+        <p></p>
         {err && <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 p-3 rounded">{err}</div>}
 
         <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
