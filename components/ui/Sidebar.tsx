@@ -93,7 +93,7 @@ export default function ResponsiveNav({ children }: { children: React.ReactNode 
       <header className="md:hidden sticky top-0 z-50 bg-slate-900 text-white">
         <div className="flex items-center justify-between px-4 py-3">
           <div>
-            <div className="text-base font-bold leading-tight">E-Filling Dosen</div>
+            <div className="text-base font-bold leading-tight">eFilling Dosen</div>
             <div className="text-[11px] font-medium tracking-wide text-slate-400">
               Universitas Widyatama
             </div>
