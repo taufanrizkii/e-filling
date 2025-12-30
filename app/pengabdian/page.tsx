@@ -82,7 +82,7 @@ export default function PengabdianPage() {
   const fetchPengabdian = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch(`${API_BASE}/api/v1/pengabdian`);
+      const res = await fetch(`${API_BASE}/api/v1/pengabdian`, { credentials: "include" });
       const json = await res.json();
       if (json?.status === 'success') setData(json.data ?? []);
       else setData([]);
@@ -125,6 +125,7 @@ export default function PengabdianPage() {
       const res = await fetch(`${API_BASE}/api/v1/pengabdian`, {
         method: 'POST',
         body: fd,
+        credentials: "include",
       });
 
       const json = await res.json();
@@ -175,6 +176,7 @@ export default function PengabdianPage() {
       const res = await fetch(`${API_BASE}/api/v1/pengabdian/${uploadId}`, {
         method: 'PUT',
         body: fd,
+        credentials: "include",
       });
 
       const json = await res.json();
@@ -215,6 +217,7 @@ export default function PengabdianPage() {
           try {
             const r = await fetch(`${API_BASE}/api/v1/pengabdian/${id}`, {
               method: "DELETE",
+              credentials: "include",
             });
 
             const j = await r.json();

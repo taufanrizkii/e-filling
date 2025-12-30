@@ -65,7 +65,7 @@ export default function PenelitianPage() {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/v1/penelitian`);
+      const res = await fetch(`${API_BASE}/api/v1/penelitian`, { credentials: "include" });
       const json = await res.json();
       if (json?.status === 'success') setData(json.data ?? []);
       else setData([]);
@@ -105,6 +105,7 @@ export default function PenelitianPage() {
       const res = await fetch(`${API_BASE}/api/v1/penelitian`, {
         method: 'POST',
         body: fd,
+        credentials: "include",
       });
 
       const json = await res.json();
@@ -161,6 +162,7 @@ export default function PenelitianPage() {
       const res = await fetch(`${API_BASE}/api/v1/penelitian/${uploadId}`, {
         method: 'PUT',
         body: fd,
+        credentials: "include",
       });
 
       const json = await res.json();
@@ -192,6 +194,7 @@ export default function PenelitianPage() {
           try {
             const res = await fetch(`${API_BASE}/api/v1/penelitian/${id}`, {
               method: 'DELETE',
+              credentials: "include",
             });
             const json = await res.json();
             if (!res.ok || json?.status !== 'success') {

@@ -57,10 +57,10 @@ export default function DashboardPage() {
       setIsLoadingCounts(true);
 
       const [pendidikanRes, penelitianRes, pengabdianRes, penunjangRes] = await Promise.all([
-        fetch('http://localhost:5000/api/v1/pendidikan'),
-        fetch('http://localhost:5000/api/v1/penelitian'),
-        fetch('http://localhost:5000/api/v1/pengabdian'),
-        fetch('http://localhost:5000/api/v1/penunjang')
+        fetch('http://localhost:5000/api/v1/pendidikan', { credentials: "include" }),
+        fetch('http://localhost:5000/api/v1/penelitian', { credentials: "include" }),
+        fetch('http://localhost:5000/api/v1/pengabdian', { credentials: "include" }),
+        fetch('http://localhost:5000/api/v1/penunjang', { credentials: "include" })
       ]);
 
       const [pendidikanJson, penelitianJson, pengabdianJson, penunjangJson] = await Promise.all([

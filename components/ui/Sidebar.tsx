@@ -13,12 +13,24 @@ import {
   Menu,
   X,
 } from 'lucide-react';
+import { useRouter } from "next/navigation";
+
 
 type MenuItem = { label: string; href: string; icon: React.ElementType };
 
 export default function ResponsiveNav({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await fetch("http://localhost:5000/api/v1/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+
+    router.replace("/login");
+  };
 
   const MENU: MenuItem[] = useMemo(
     () => [
@@ -67,7 +79,7 @@ export default function ResponsiveNav({ children }: { children: React.ReactNode 
       <div className={variant === 'desktop' ? 'mt-8 pt-6 border-t border-slate-800' : 'mt-3 pt-3 border-t border-slate-800'}>
         <button
           className="w-full flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition"
-          onClick={() => alert('Logout belum diaktifkan (akan dibuat setelah login).')}
+          onClick={handleLogout}
         >
           <LogOut className="h-5 w-5" />
           <span>Logout</span>

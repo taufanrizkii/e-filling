@@ -72,7 +72,7 @@ export default function PenunjangPage() {
   const fetchPenunjang = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch(`${API_BASE}/api/v1/penunjang`);
+      const res = await fetch(`${API_BASE}/api/v1/penunjang`, { credentials: "include" });
       const json = await res.json();
       if (json?.status === 'success') setData(json.data ?? []);
       else setData([]);
@@ -113,6 +113,7 @@ export default function PenunjangPage() {
       const res = await fetch(`${API_BASE}/api/v1/penunjang`, {
         method: 'POST',
         body: fd,
+        credentials: "include",
       });
 
       const json = await res.json();
@@ -174,6 +175,7 @@ export default function PenunjangPage() {
       const res = await fetch(`${API_BASE}/api/v1/penunjang/${uploadId}`, {
         method: 'PUT',
         body: fd,
+        credentials: "include",
       });
 
       const json = await res.json();
@@ -214,6 +216,7 @@ export default function PenunjangPage() {
           try {
             const r = await fetch(`${API_BASE}/api/v1/penunjang/${id}`, {
               method: 'DELETE',
+              credentials: "include",
             });
             const j = await r.json();
             if (!r.ok) throw new Error(j?.message ?? 'Gagal menghapus data');

@@ -9,8 +9,11 @@ import {
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import { requireAuth } from "../middlewares/auth";
 
 const router = Router();
+router.use(requireAuth);
+
 
 // --- Konfigurasi Multer (Sama seperti pendidikan) ---
 const storage = multer.diskStorage({

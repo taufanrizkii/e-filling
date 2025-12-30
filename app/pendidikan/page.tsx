@@ -33,7 +33,7 @@ export default function PendidikanPage() {
     const fetchData = async () => {
         setIsLoading(true);
         try {
-            const res = await fetch('http://localhost:5000/api/v1/pendidikan');
+            const res = await fetch('http://localhost:5000/api/v1/pendidikan', { credentials: "include" });
             if (!res.ok) throw new Error("Gagal mengambil data");
             const json = await res.json();
             if (json.status === 'success') {
@@ -74,6 +74,7 @@ export default function PendidikanPage() {
             const res = await fetch('http://localhost:5000/api/v1/pendidikan', {
                 method: 'POST',
                 body: dataToSend,
+                credentials: "include",
             });
 
             if (res.ok) {
@@ -113,7 +114,8 @@ export default function PendidikanPage() {
                 // Perhatikan URL endpointnya
                 const res = await fetch(`http://localhost:5000/api/v1/pendidikan/${id}`, {
                     method: 'PUT',
-                    body: formDataUpload
+                    body: formDataUpload,
+                    credentials: "include"
                     // JANGAN tambahkan header Content-Type di sini! Biarkan otomatis.
                 });
 

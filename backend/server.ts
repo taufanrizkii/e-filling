@@ -11,6 +11,7 @@ import pendidikanRoutes from "./routes/pendidikan.routes";
 import penelitianRoutes from "./routes/penelitian.routes";
 import pengabdianRoutes from "./routes/pengabdian.routes";
 import penunjangRoutes from "./routes/penunjang.routes";
+import authRoutes from "./routes/auth.routes";
 
 const PORT = config.port || 5000;
 
@@ -24,6 +25,7 @@ if (!fs.existsSync(uploadsPath)) {
 app.use("/uploads", express.static(uploadsPath));
 
 // 2. DAFTARKAN ROUTE (Harus sebelum 404 handler)
+app.use("/api/v1", authRoutes);
 app.use("/api/v1", pendidikanRoutes);
 app.use("/api/v1", penelitianRoutes);
 app.use("/api/v1", pengabdianRoutes);

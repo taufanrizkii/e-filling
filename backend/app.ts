@@ -3,6 +3,7 @@ import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import helmet from "helmet";
 import compression from "compression";
+import session from "express-session";
 
 const app: Application = express();
 
@@ -12,11 +13,30 @@ app.use(
     crossOriginResourcePolicy: false, // Penting agar gambar/file bisa diakses FE
   })
 );
-app.use(cors());
 
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 // Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  session({
+    name: "connect.sid",
+    secret: process.env.SESSION_SECRET || "DEV_SECRET_EFILLING",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false, // dev localhost
+    },
+  })
+);
 
 // Compression middleware
 app.use(compression());
