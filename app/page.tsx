@@ -1,11 +1,10 @@
-// app/page.tsx
 'use client';
 
 import Link from 'next/link';
 import React, { useEffect, useMemo, useState } from 'react';
 import { GraduationCap, FlaskConical, Handshake, Star } from "lucide-react";
 
-
+// --- TIPE DATA ---
 interface SummaryCardProps {
   title: string;
   count: number;
@@ -14,7 +13,17 @@ interface SummaryCardProps {
   icon: React.ReactNode;
 }
 
-// Komponen Card Ringkasan (tanpa "Status Pengisian")
+interface User {
+  nama: string;
+  email: string;
+}
+
+interface ApiListResponse {
+  status?: string;
+  data?: any[];
+}
+
+// --- KOMPONEN KARTU ---
 const SummaryCard: React.FC<SummaryCardProps> = ({ title, count, link, statusColor, icon }) => (
   <Link href={link} className="block hover:shadow-lg transition-shadow duration-300">
     <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
@@ -26,41 +35,47 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ title, count, link, statusCol
         </div>
         <div className={`p-3 rounded-full text-white ${statusColor}`}>{icon}</div>
       </div>
-      {/* Bagian Status Pengisian DIHAPUS */}
     </div>
   </Link>
 );
 
-type ApiListResponse = { status?: string; data?: any[] };
-
 export default function DashboardPage() {
-  // Data Dosen (Simulasi dari hasil Login)
-  const userData = {
-    nama: 'Dr. Budi Santoso, S.Kom, M.T.',
-    noInduk: '198501232010011005',
-    jabatan: 'Lektor Kepala',
-    prodi: 'Teknik Informatika',
-  };
+  // 1. STATE UNTUK USER (DINAMIS)
+  const [user, setUser] = useState<User | null>(null);
+  const [loadingUser, setLoadingUser] = useState(true);
 
-  // counts realtime (hasil hitung row)
+  // 2. STATE UNTUK COUNT DATA
   const [counts, setCounts] = useState({
     pendidikan: 0,
     penelitian: 0,
     pengabdian: 0,
-    penunjang: 0, // kalau belum ada modulnya, tetap 0 dulu
+    penunjang: 0,
   });
-
   const [isLoadingCounts, setIsLoadingCounts] = useState(true);
 
+  // 3. EFFECT: AMBIL USER DARI LOCALSTORAGE
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    setLoadingUser(false);
+  }, []);
+
+  // 4. EFFECT: AMBIL DATA COUNT DARI API
   const fetchCounts = async () => {
     try {
+      // Helper untuk mengambil token
+      const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
+      const headers = { 'Authorization': `Bearer ${token}` };
+
       setIsLoadingCounts(true);
 
       const [pendidikanRes, penelitianRes, pengabdianRes, penunjangRes] = await Promise.all([
-        fetch('http://localhost:5000/api/v1/pendidikan'),
-        fetch('http://localhost:5000/api/v1/penelitian'),
-        fetch('http://localhost:5000/api/v1/pengabdian'),
-        fetch('http://localhost:5000/api/v1/penunjang')
+        fetch('http://localhost:5000/api/v1/pendidikan', { headers }),
+        fetch('http://localhost:5000/api/v1/penelitian', { headers }),
+        fetch('http://localhost:5000/api/v1/pengabdian', { headers }),
+        fetch('http://localhost:5000/api/v1/penunjang', { headers })
       ]);
 
       const [pendidikanJson, penelitianJson, pengabdianJson, penunjangJson] = await Promise.all([
@@ -70,28 +85,17 @@ export default function DashboardPage() {
         penunjangRes.json()
       ]);
 
-      const pendidikanCount =
-        (pendidikanJson as ApiListResponse)?.status === 'success' ? (pendidikanJson as ApiListResponse).data?.length ?? 0 : 0;
+      const getCount = (json: ApiListResponse) => (json?.status === 'success' && Array.isArray(json?.data) ? json.data.length : 0);
 
-      const penelitianCount =
-        (penelitianJson as ApiListResponse)?.status === 'success' ? (penelitianJson as ApiListResponse).data?.length ?? 0 : 0;
+      setCounts({
+        pendidikan: getCount(pendidikanJson),
+        penelitian: getCount(penelitianJson),
+        pengabdian: getCount(pengabdianJson),
+        penunjang: getCount(penunjangJson),
+      });
 
-      const pengabdianCount =
-        (pengabdianJson as ApiListResponse)?.status === 'success' ? (pengabdianJson as ApiListResponse).data?.length ?? 0 : 0;
-
-      const penunjangCount =
-        (penunjangJson as ApiListResponse)?.status === 'success' ? (penunjangJson as ApiListResponse).data?.length ?? 0 : 0;
-  
-      setCounts((prev) => ({
-        ...prev,
-        pendidikan: pendidikanCount,
-        penelitian: penelitianCount,
-        pengabdian: pengabdianCount,
-        penunjang: penunjangCount,
-      }));
     } catch (e) {
       console.error('Gagal mengambil count:', e);
-      // kalau error, biarkan nilai terakhir; jangan reset biar UI tidak “kedip”
     } finally {
       setIsLoadingCounts(false);
     }
@@ -99,76 +103,85 @@ export default function DashboardPage() {
 
   useEffect(() => {
     fetchCounts();
-
-    // realtime sederhana: polling tiap 5 detik
-    const t = setInterval(fetchCounts, 5000);
-    return () => clearInterval(t);
+    const interval = setInterval(fetchCounts, 5000);
+    return () => clearInterval(interval);
   }, []);
 
-  const cards: SummaryCardProps[] = useMemo(
-    () => [
-      {
-        title: "Bidang Pendidikan",
-        count: counts.pendidikan,
-        link: "/pendidikan",
-        statusColor: "bg-green-500",
-        icon: <GraduationCap className="w-6 h-6" />,
-      },
-      {
-        title: "Bidang Penelitian",
-        count: counts.penelitian,
-        link: "/penelitian",
-        statusColor: "bg-yellow-500",
-        icon: <FlaskConical className="w-6 h-6" />,
-      },
-      {
-        title: "Bidang Pengabdian",
-        count: counts.pengabdian,
-        link: "/pengabdian",
-        statusColor: "bg-red-500",
-        icon: <Handshake className="w-6 h-6" />,
-      },
-      {
-        title: "Bidang Penunjang",
-        count: counts.penunjang,
-        link: "/penunjang",
-        statusColor: "bg-purple-500",
-        icon: <Star className="w-6 h-6" />,
-      },
-    ],
-    [counts]
-  );
+  // 5. MEMO: DATA KARTU
+  const cards: SummaryCardProps[] = useMemo(() => [
+    {
+      title: "Bidang Pendidikan",
+      count: counts.pendidikan,
+      link: "/pendidikan",
+      statusColor: "bg-green-500",
+      icon: <GraduationCap className="w-6 h-6" />,
+    },
+    {
+      title: "Bidang Penelitian",
+      count: counts.penelitian,
+      link: "/penelitian",
+      statusColor: "bg-yellow-500",
+      icon: <FlaskConical className="w-6 h-6" />,
+    },
+    {
+      title: "Bidang Pengabdian",
+      count: counts.pengabdian,
+      link: "/pengabdian",
+      statusColor: "bg-red-500",
+      icon: <Handshake className="w-6 h-6" />,
+    },
+    {
+      title: "Bidang Penunjang",
+      count: counts.penunjang,
+      link: "/penunjang",
+      statusColor: "bg-purple-500",
+      icon: <Star className="w-6 h-6" />,
+    },
+  ], [counts]);
 
   return (
     <div className="space-y-8">
-      <h1 className="text-4xl font-extrabold text-gray-800">Selamat Datang, {userData.nama.split(',')[0]}! 👋</h1>
+      {/* --- Header Selamat Datang --- */}
+      <h1 className="text-4xl font-extrabold text-gray-800 capitalize">
+        Selamat Datang, {loadingUser ? '...' : (user?.nama || 'Dosen')}! 👋
+      </h1>
 
-      {/* --- Informasi Dosen --- */}
+      {/* --- Informasi Dosen (DIPERBARUI) --- */}
       <div className="bg-white p-6 rounded-xl shadow-lg border-l-4 border-indigo-600">
         <h2 className="text-2xl font-semibold mb-3 text-gray-700">Informasi Akun Dosen</h2>
-        <div className="grid grid-cols-2 gap-4 text-gray-600">
-          <p>
-            <strong>NIP/NIDN:</strong> {userData.noInduk}
-          </p>
-          <p>
-            <strong>Jabatan Fungsional:</strong> {userData.jabatan}
-          </p>
-          <p>
-            <strong>Nama Lengkap:</strong> {userData.nama}
-          </p>
-          <p>
-            <strong>Program Studi:</strong> {userData.prodi}
-          </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-600">
+          <div>
+            <p className="mb-1 text-sm text-gray-500 uppercase tracking-wide">Nama Lengkap</p>
+            {/* Nama diambil dinamis dari Login */}
+            <p className="text-lg font-bold text-gray-900 capitalize">{user?.nama || 'Nama Dosen'}</p>
+          </div>
+          <div>
+            <p className="mb-1 text-sm text-gray-500 uppercase tracking-wide">NIP/NIDN</p>
+            {/* Data Dummy karena belum ada di DB */}
+            <p className="text-lg font-bold text-gray-900">198501232010011005</p>
+          </div>
+          <div>
+            <p className="mb-1 text-sm text-gray-500 uppercase tracking-wide">Jabatan Fungsional</p>
+             {/* Data Dummy */}
+            <p className="text-lg font-medium text-gray-900">Lektor Kepala</p>
+          </div>
+          <div>
+            <p className="mb-1 text-sm text-gray-500 uppercase tracking-wide">Program Studi</p>
+             {/* Data Dummy */}
+            <p className="text-lg font-medium text-gray-900">Teknik Informatika</p>
+          </div>
         </div>
       </div>
 
-      {/* --- Ringkasan Tri Dharma (Count Realtime) --- */}
+      {/* --- Ringkasan Tri Dharma --- */}
       <div className="flex items-center justify-between pt-4">
         <h2 className="text-2xl font-bold text-gray-800">Ringkasan eFilling (Tri Dharma)</h2>
-        <span className="text-sm text-gray-500">{isLoadingCounts ? 'Memuat ringkasan...' : 'Data sudah ter-update'}</span>
+        <span className="text-sm text-gray-500">
+          {isLoadingCounts ? 'Memuat data...' : 'Data terbaru'}
+        </span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {cards.map((c, idx) => (
           <SummaryCard key={idx} {...c} />
         ))}
@@ -181,8 +194,7 @@ export default function DashboardPage() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.3 17c-.77 1.333.192 3 1.732 3z" />
           </svg>
           <p className="text-sm text-yellow-800 font-medium">
-            <strong>Perhatian:</strong> Batas waktu pengisian data Tri Dharma Semester Ganjil TA 2024/2025 adalah tanggal <strong>31 Desember 2025</strong>.
-            Harap segera lengkapi Bidang Pengabdian.
+            <strong>Perhatian:</strong> Pastikan data Anda selalu terupdate sebelum akhir semester.
           </p>
         </div>
       </div>
