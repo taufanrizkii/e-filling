@@ -3,6 +3,7 @@ import {
   getAllPendidikan,
   createPendidikan,
   updatePendidikan,
+  deletePendidikan,
 } from "../controllers/pendidikan.controller";
 import multer from "multer";
 import path from "path";
@@ -10,10 +11,11 @@ import fs from "fs";
 import { requireAuth } from "../middlewares/auth";
 
 const router = Router();
+
+// Middleware Auth: Hanya user login yang bisa akses
 router.use(requireAuth);
 
-
-// --- Konfigurasi Multer ---
+// --- Konfigurasi Multer (Sama seperti Penelitian) ---
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadPath = "uploads/";
@@ -32,6 +34,7 @@ const upload = multer({
   storage: storage,
   limits: { fileSize: 5 * 1024 * 1024 }, // Limit 5MB
   fileFilter: (req, file, cb) => {
+    // Izinkan PDF dan Gambar
     if (
       file.mimetype === "application/pdf" ||
       file.mimetype.startsWith("image/")
@@ -47,5 +50,6 @@ const upload = multer({
 router.get("/pendidikan", getAllPendidikan);
 router.post("/pendidikan", upload.single("file_bukti"), createPendidikan);
 router.put("/pendidikan/:id", upload.single("file_bukti"), updatePendidikan);
+router.delete("/pendidikan/:id", deletePendidikan);
 
 export default router;
