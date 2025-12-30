@@ -323,7 +323,7 @@ export default function PengabdianPage() {
               </div>
 
               <p className="mt-1 text-xs text-gray-500">
-                Opsional. Jika diisi, status akan otomatis “Sudah Upload”.
+                Opsional. Jika diisi, status akan otomatis “SUDAH UPLOAD”.
               </p>
             </div>
           </div>
@@ -387,7 +387,7 @@ export default function PengabdianPage() {
                             : 'inline-flex rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-800'
                         }
                       >
-                        {item.statusBukti}
+                        {item.statusBukti.toUpperCase()}
                       </span>
                     </td>
 

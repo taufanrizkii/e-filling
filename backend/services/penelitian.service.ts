@@ -2,7 +2,8 @@ import {
   findAllPenelitian,
   createPenelitian as createRepo,
   updateFilePenelitian,
-  deletePenelitian, // Pastikan Anda sudah menambahkan ini di repository
+  deletePenelitian,
+  findPenelitianFilePathById,
 } from "../repositories/penelitian.repository";
 
 // 1. Ambil Semua Data
@@ -26,7 +27,10 @@ export const updatePenelitianFileService = async (
   return await updateFilePenelitian(id, filename);
 };
 
-// 4. Tambahkan Fitur Hapus (Sesuai permintaan tampilan baru Anda)
+
 export const deletePenelitianService = async (id: number) => {
-  return await deletePenelitian(id);
+  const filePath = await findPenelitianFilePathById(id);
+  await deletePenelitian(id);
+  return filePath;
 };
+

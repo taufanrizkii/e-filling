@@ -65,3 +65,11 @@ export const deletePenelitian = async (id: number): Promise<void> => {
   const query = "DELETE FROM penelitian WHERE id = $1";
   await pool.query(query, [id]);
 };
+
+export const findPenelitianFilePathById = async (id: number): Promise<string | null> => {
+  const q = `SELECT file_path FROM penelitian WHERE id = $1`;
+  const r = await pool.query(q, [id]);
+  if (r.rows.length === 0) return null;
+  return r.rows[0].file_path ?? null;
+};
+

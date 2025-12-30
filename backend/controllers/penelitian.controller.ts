@@ -6,6 +6,7 @@ import {
   deletePenelitianService, // Tambahkan import service hapus
 } from "../services/penelitian.service";
 import fs from "fs";
+import path from "path";
 
 // 1. Ambil Semua Data
 export const getAllPenelitian = async (req: Request, res: Response) => {
@@ -65,11 +66,20 @@ export const updatePenelitian = async (req: Request, res: Response) => {
   }
 };
 
-// 4. FITUR HAPUS (Wajib ditambahkan agar tombol Hapus berfungsi)
+
+
 export const deletePenelitian = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
-    await deletePenelitianService(id);
+
+    const filePath = await deletePenelitianService(id);
+
+    // ✅ hapus file fisik kalau ada
+    if (filePath) {
+      const abs = path.join(process.cwd(), "uploads", filePath);
+      if (fs.existsSync(abs)) fs.unlinkSync(abs);
+    }
+
     res.json({
       status: "success",
       message: "Data penelitian berhasil dihapus",

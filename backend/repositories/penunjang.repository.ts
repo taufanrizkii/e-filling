@@ -50,3 +50,15 @@ export const updateFilePenunjang = async (
   const result = await pool.query(query, [filename, id]);
   return result.rows.length > 0 ? result.rows[0] : null;
 };
+
+export const findPenunjangFilePathById = async (id: number): Promise<string | null> => {
+  const q = `SELECT file_path FROM penunjang WHERE id = $1`;
+  const r = await pool.query(q, [id]);
+  if (r.rows.length === 0) return null;
+  return r.rows[0].file_path ?? null;
+};
+
+export const deletePenunjang = async (id: number): Promise<void> => {
+  const q = `DELETE FROM penunjang WHERE id = $1`;
+  await pool.query(q, [id]);
+};

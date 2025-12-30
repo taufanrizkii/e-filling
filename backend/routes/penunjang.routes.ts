@@ -4,6 +4,7 @@ import {
   getAllPenunjang,
   createPenunjang,
   updatePenunjang,
+  deletePenunjang,
 } from "../controllers/penunjang.controller";
 import multer from "multer";
 import path from "path";
@@ -45,5 +46,6 @@ const upload = multer({
 router.get("/penunjang", getAllPenunjang);
 router.post("/penunjang", upload.single("file_bukti"), createPenunjang);
 router.put("/penunjang/:id", upload.single("file_bukti"), updatePenunjang);
+router.delete("/penunjang/:id", deletePenunjang);
 
 export default router;

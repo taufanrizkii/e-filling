@@ -165,7 +165,7 @@ export default function DashboardPage() {
       {/* --- Ringkasan Tri Dharma (Count Realtime) --- */}
       <div className="flex items-center justify-between pt-4">
         <h2 className="text-2xl font-bold text-gray-800">Ringkasan E-Filling (Tri Dharma)</h2>
-        <span className="text-sm text-gray-500">{isLoadingCounts ? 'Memuat ringkasan...' : 'Update otomatis tiap 5 detik'}</span>
+        <span className="text-sm text-gray-500">{isLoadingCounts ? 'Memuat ringkasan...' : 'Data sudah ter-update'}</span>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

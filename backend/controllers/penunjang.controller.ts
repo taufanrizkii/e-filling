@@ -6,6 +6,8 @@ import {
   updatePenunjangFileService,
 } from "../services/penunjang.service";
 import fs from "fs";
+import path from "path";
+import { deletePenunjangService } from "../services/penunjang.service";
 
 // 1. GET All
 export const getAllPenunjang = async (
@@ -95,6 +97,25 @@ export const updatePenunjang = async (
     });
   } catch (error: any) {
     console.error("❌ Error updatePenunjang:", error);
+    res.status(500).json({ status: "error", message: error.message });
+  }
+};
+
+export const deletePenunjang = async (req: Request, res: Response) => {
+  try {
+    const id = Number(req.params.id);
+
+    const filePath = await deletePenunjangService(id);
+
+    // hapus file bukti kalau ada
+    if (filePath) {
+      const abs = path.join(process.cwd(), "uploads", filePath);
+      if (fs.existsSync(abs)) fs.unlinkSync(abs);
+    }
+
+    res.json({ status: "success", message: "Data penunjang berhasil dihapus" });
+  } catch (error: any) {
+    console.error("❌ Error deletePenunjang:", error);
     res.status(500).json({ status: "error", message: error.message });
   }
 };

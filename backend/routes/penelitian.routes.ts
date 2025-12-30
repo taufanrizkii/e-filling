@@ -3,6 +3,7 @@ import {
   getAllPenelitian,
   createPenelitian,
   updatePenelitian,
+  deletePenelitian,
 } from "../controllers/penelitian.controller";
 import multer from "multer";
 import path from "path";
@@ -44,5 +45,6 @@ const upload = multer({
 router.get("/penelitian", getAllPenelitian);
 router.post("/penelitian", upload.single("file_bukti"), createPenelitian);
 router.put("/penelitian/:id", upload.single("file_bukti"), updatePenelitian);
+router.delete("/penelitian/:id", deletePenelitian);
 
 export default router;
