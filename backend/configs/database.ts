@@ -5,7 +5,7 @@ export const pool = new Pool({
   user: "postgres",
   host: "localhost",
   database: "db_efilling",
-  password: "user", // GANTI DENGAN PASSWORD POSTGRES ANDA
+  password: "admin", // GANTI DENGAN PASSWORD POSTGRES ANDA
   port: 5432,
 });
 
